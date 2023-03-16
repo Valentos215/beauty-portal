@@ -1,24 +1,32 @@
 import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import { BrowserRouter, Redirect, Route, Switch } from 'react-router-dom';
+
+import Header from 'components/header/Header';
+import { ExpandProvider } from 'contexts/expandContext';
+import { ERouterLink } from 'constants/index';
+
+import 'App.scss';
+
+const OfficeLazy = React.lazy(() => import('pages/office/Office'));
+const NewsLazy = React.lazy(() => import('pages/news/News'));
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div className="app-wrapper">
+      <BrowserRouter>
+        <ExpandProvider>
+          <Header />
+          <React.Suspense fallback={<></>}>
+            <Switch>
+              <Route path={ERouterLink.News} component={NewsLazy} />
+              <Route path={ERouterLink.Office} component={OfficeLazy} />
+              <Route path={ERouterLink.Root} exact>
+                <Redirect to={ERouterLink.News} />
+              </Route>
+            </Switch>
+          </React.Suspense>
+        </ExpandProvider>
+      </BrowserRouter>
     </div>
   );
 }
