@@ -1,4 +1,4 @@
-import { EDateStatus, uaMonths } from 'constants/index';
+import { uaMonths } from 'constants/index';
 
 import moment from 'moment';
 
@@ -39,7 +39,7 @@ export const createSchedule = () => {
     ) {
       schedule.push({
         date: `${currentDate.date()}:${currentDate.month()}`,
-        schedule: [EDateStatus.NonWorking],
+        schedule: [],
       });
     } else {
       schedule.push({
