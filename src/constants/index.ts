@@ -19,10 +19,10 @@ export enum ERouterLink {
 }
 
 export enum EDateStatus {
-  NonWorking = 'nonWorking',
+  NonWorking = 'nonworking',
   Current = 'current',
   Free = 'free',
-  PartFilled = 'partFilled',
+  PartFilled = 'partfilled',
   FulFilled = 'fulfilled',
 }
 
