@@ -46,8 +46,9 @@
     transform: scale(0.9);
   }
   &.current {
-    background: $color-8;
     cursor: pointer;
+    border: 1px solid #000;
+    text-decoration: underline;
   }
   &.nonworking {
     background: $color-7;
@@ -56,7 +57,7 @@
     }
   }
   &.free {
-    background: #fff;
+    background: $color-8;
     cursor: pointer;
   }
   &.partfilled {

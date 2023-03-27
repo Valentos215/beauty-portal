@@ -21,7 +21,6 @@ export enum ERouterLink {
 export enum EDateStatus {
   EmptySpace = 'empty_space',
   NonWorking = 'nonworking',
-  Current = 'current',
   Free = 'free',
   PartFilled = 'partfilled',
   FulFilled = 'fulfilled',
@@ -57,4 +56,15 @@ export const uaMonthsVidminok = [
   'Жовтня',
   'Листопада',
   'Грудня',
+];
+
+export const durationList = [
+  { text: '30 хв', duration: 1 },
+  { text: '1 година', duration: 2 },
+  { text: '1 година 30 хв', duration: 3 },
+  { text: '2 години', duration: 4 },
+  { text: '2 години 30 хв', duration: 5 },
+  { text: '3 години', duration: 6 },
+  { text: '3 години 30 хв', duration: 7 },
+  { text: '4 години', duration: 8 },
 ];

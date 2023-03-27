@@ -1,28 +1,22 @@
 import { memo } from 'react';
-import { createSchedule, getMonthName, createCalendarState } from 'utils/utils';
+import { getMonthName } from 'utils/utils';
+import { IDayWithStatus } from 'types/types';
 
 import s from 'shared/components/Calendar.module.scss';
 import { uaDays } from 'constants/index';
+import moment from 'moment';
 
-const Calendar = memo(() => {
-  const schedule = createSchedule();
-  schedule[2].schedule = [
-    '8:0',
-    '9:0',
-    '9:30',
-    '10:0',
-    '10:30',
-    '11:0',
-    '11:30',
-    '12:0',
-    '12:30',
-    '14:0',
-    '14:30',
-    '15:0',
-    '15:30',
-  ];
-  schedule[3].schedule = [];
-  const calendarState = createCalendarState(schedule);
+interface ICalendarProps {
+  calendarState: IDayWithStatus[][];
+}
+
+const Calendar = memo(({ calendarState }: ICalendarProps) => {
+  const dayClassName = (day: IDayWithStatus) => {
+    if (day.date === `${moment().date()}.${moment().month()}`) {
+      return `${s.day} ${s[day.status]} ${s.current}`;
+    }
+    return `${s.day} ${s[day.status]}`;
+  };
 
   return (
     <div className={s.wrapper}>
@@ -37,7 +31,7 @@ const Calendar = memo(() => {
             ))}
             {month.map((day) => (
               <div className={s.day_wrapper} key={day.date}>
-                <span className={`${s.day} ${s[day.status]}`}>{day.date.split('.')[0]}</span>
+                <span className={dayClassName(day)}>{day.date.split('.')[0]}</span>
               </div>
             ))}
           </div>
