@@ -36,7 +36,7 @@
     display: none;
   }
   & a {
-    color: $color-7;
+    color: $color-2;
   }
   &__link {
     font-size: toRem(18);
@@ -90,7 +90,7 @@
     transition: all 0.3s ease 0s;
   }
   & span:first-child {
-    background: $color-9;
+    background: $color-3;
   }
 
   &.active {

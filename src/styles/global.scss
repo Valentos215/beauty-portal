@@ -1,15 +1,13 @@
 $color-1: #223;
-$color-2: rgb(250, 250, 255);
-$color-3: #4f4f4f;
-$color-4: #e31837;
-$color-5: #b8112a;
-$color-6: rgba(2, 2, 2, 0.3);
-$color-7: rgb(209, 209, 209);
-$color-8: rgba(2, 2, 2, 0.2);
-$color-9: rgba(2, 2, 2, 0.1);
-$color-10: rgba(2, 2, 2, 0.8);
-$color-11: rgba(227, 24, 55, 0.2);
-$color-12: rgba(227, 24, 55, 0.5);
+$color-2: rgb(209, 209, 209);
+$color-3: rgba(2, 2, 2, 0.1);
+$color-4: rgba(2, 2, 2, 0.3);
+$color-5: #6f6c74;
+$color-6: #eaeaea;
+$color-7: #a8a8a8;
+$color-8: #c3f4b9;
+$color-9: #b5cbf6;
+$color-10: #ffa0a0;
 
 @function toRem($value) {
   $remValue: ($value / 14) + rem;

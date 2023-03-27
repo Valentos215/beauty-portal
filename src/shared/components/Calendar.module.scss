@@ -34,20 +34,41 @@
   font-size: toRem(15);
   line-height: toRem(20);
   border-radius: toRem(5);
-  border: 1px solid #6f6c74;
-  background: #e5ddef;
+  border: 1px solid $color-5;
   text-align: center;
-  cursor: pointer;
+  transition: all 0.2s;
+  &.week_day {
+    background: $color-6;
+    border: none;
+    font-size: toRem(12);
+  }
+  &:active {
+    transform: scale(0.9);
+  }
   &.current {
+    background: $color-8;
+    cursor: pointer;
   }
   &.nonworking {
-    background: #a8a8a8;
-    cursor: no-drop;
+    background: $color-7;
+    &:active {
+      transform: none;
+    }
   }
   &.free {
+    background: #fff;
+    cursor: pointer;
   }
   &.partfilled {
+    background: $color-9;
+    cursor: pointer;
   }
   &.fulfilled {
+    background: $color-10;
+    cursor: pointer;
+  }
+  &.empty_space {
+    background: #fff;
+    border: none;
   }
 }

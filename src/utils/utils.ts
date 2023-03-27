@@ -1,29 +1,31 @@
-import { IDaySchedule } from 'types/types';
+import { IDay, IDayWithStatus } from 'types/types';
 import { EDateStatus, uaMonths } from 'constants/index';
 
 import moment from 'moment';
 
 const exampleSchedule = [
-  '8:00',
+  '8:0',
   '8:30',
-  '9:00',
+  '9:0',
   '9:30',
-  '10:00',
+  '10:0',
   '10:30',
-  '11:00',
+  '11:0',
   '11:30',
-  '12:00',
+  '12:0',
   '12:30',
-  '14:00',
+  '14:0',
   '14:30',
-  '15:00',
+  '15:0',
   '15:30',
-];
+]; //mock data
 const weekend = [0, 6]; //mock data
 const recordAhead = 7; //mock data
+const workingHours = ['8:0', '16:0']; //mock data
+const breakHours = ['13:0', '13:30']; //mock data
 
 //server side function
-export const createSchedule = () => {
+export const createSchedule = (): IDay[] => {
   const schedule = [];
   const dateNow = moment();
   const currentDate = moment().startOf('week').add(1, 'day');
@@ -49,13 +51,45 @@ export const createSchedule = () => {
   return schedule;
 };
 
-export const separateByMonths = (schedule: IDaySchedule[]) => {
-  const months: IDaySchedule[][] = [];
-  let chunk: IDaySchedule[] = [];
+const getDateStatus = (day: IDay) => {
+  let status = '';
+  if (day.date === `${moment().date()}.${moment().month()}`) {
+    status = EDateStatus.Current;
+  } else if (!day.schedule.length) {
+    status = EDateStatus.FulFilled;
+  } else if (day.schedule[0] === EDateStatus.NonWorking) {
+    status = EDateStatus.NonWorking;
+  } else {
+    let lastWorkingHour = moment(workingHours[1], 'h:m').subtract(30, 'minutes');
+    let currentTime = moment(workingHours[0], 'h:m');
+    while (currentTime <= lastWorkingHour) {
+      if (breakHours.includes(`${currentTime.hours()}:${currentTime.minutes()}`)) {
+        currentTime.add(30, 'minutes');
+        continue;
+      }
+      if (!day.schedule.includes(`${currentTime.hours()}:${currentTime.minutes()}`)) {
+        status = EDateStatus.PartFilled;
+        break;
+      } else if (
+        currentTime.hour() === lastWorkingHour.hour() &&
+        currentTime.minutes() === lastWorkingHour.minutes()
+      ) {
+        status = EDateStatus.Free;
+        break;
+      }
+      currentTime.add(30, 'minutes');
+    }
+  }
+  return status;
+};
+
+export const createCalendarState = (schedule: IDay[]): IDayWithStatus[][] => {
+  const months: IDayWithStatus[][] = [];
+  let chunk: IDayWithStatus[] = [];
   schedule.forEach((day) => {
     // first month
     if (!chunk.length || chunk[0].date.split('.')[1] === day.date.split('.')[1]) {
-      chunk.push(day);
+      chunk.push({ ...day, status: getDateStatus(day) });
 
       // moving on to the next month
     } else {
@@ -69,9 +103,10 @@ export const separateByMonths = (schedule: IDaySchedule[]) => {
         chunk.push({
           date: `\u00A0.${day.date.split('.')[1]}.${i}`,
           schedule: [EDateStatus.NonWorking],
+          status: EDateStatus.EmptySpace,
         });
       }
-      chunk.push(day);
+      chunk.push({ ...day, status: getDateStatus(day) });
     }
     if (schedule[schedule.length - 1].date === day.date) {
       months.push(chunk);
@@ -81,33 +116,6 @@ export const separateByMonths = (schedule: IDaySchedule[]) => {
   return months;
 };
 
-export const getMonthName = (day: IDaySchedule) => {
+export const getMonthName = (day: IDay) => {
   return uaMonths[Number(day.date.split('.')[1])];
-};
-
-export const getDateStatus = (day: IDaySchedule, workingHours: string[]) => {
-  let status = '';
-  if (day.date === `${moment().date()}.${moment().month()}`) {
-    status = EDateStatus.Current;
-  } else if (!day.schedule.length) {
-    status = EDateStatus.FulFilled;
-  } else if (day.schedule[0] === EDateStatus.NonWorking) {
-    status = EDateStatus.NonWorking;
-  } else {
-    let endOfDay = moment(workingHours[1], 'h:m');
-    let currentTime = moment(workingHours[0], 'h:m');
-    while (currentTime < endOfDay) {
-      if (day.schedule.includes(`${currentTime.hours()}:${currentTime.minutes()}`)) {
-        if (currentTime === endOfDay.clone().subtract(30, 'minutes')) {
-          status = EDateStatus.Free;
-          break;
-        }
-        currentTime.add(30, 'minutes');
-      } else {
-        status = EDateStatus.PartFilled;
-        break;
-      }
-    }
-  }
-  return status;
 };

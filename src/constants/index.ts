@@ -1,12 +1,12 @@
 import newsLogo from 'assets/Drinks.svg';
 import servicesLogo from 'assets/Drinks.svg';
-import officeLogo from 'assets/Drinks.svg';
+import profileLogo from 'assets/Drinks.svg';
 import settingsLogo from 'assets/Drinks.svg';
 
 export const NAV_MENU = [
   { title: 'Новини', link: 'news', logo: newsLogo },
   { title: 'Послуги', link: 'services', logo: servicesLogo },
-  { title: 'Мій кабінет', link: 'office', logo: officeLogo },
+  { title: 'Мій кабінет', link: 'profile', logo: profileLogo },
   { title: 'Налаштування', link: 'settings', logo: settingsLogo },
 ];
 
@@ -14,17 +14,20 @@ export enum ERouterLink {
   Root = '/',
   News = '/news',
   Servises = '/servises',
-  Office = '/office',
+  Profile = '/profile',
   Settings = '/settings',
 }
 
 export enum EDateStatus {
+  EmptySpace = 'empty_space',
   NonWorking = 'nonworking',
   Current = 'current',
   Free = 'free',
   PartFilled = 'partfilled',
   FulFilled = 'fulfilled',
 }
+
+export const uaDays = ['ПН', 'ВТ', 'СР', 'ЧТ', 'ПТ', 'СБ', 'НД'];
 
 export const uaMonths = [
   'Січень',
@@ -36,6 +39,7 @@ export const uaMonths = [
   'Липень',
   'Серпень',
   'Вересень',
+  'Жовтень',
   'Листопад',
   'Грудень',
 ];
@@ -50,6 +54,7 @@ export const uaMonthsVidminok = [
   'Липня',
   'Серпня',
   'Вересня',
+  'Жовтня',
   'Листопада',
   'Грудня',
 ];

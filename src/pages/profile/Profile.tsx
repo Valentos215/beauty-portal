@@ -1,9 +1,9 @@
 import { memo } from 'react';
 import Calendar from 'shared/components/Calendar';
 
-import s from 'pages/office/Office.module.scss';
+import s from 'pages/profile/Profile.module.scss';
 
-const Office = memo(() => {
+const Profile = memo(() => {
   return (
     <div className="container">
       <div className={s.wrapper}>
@@ -14,4 +14,4 @@ const Office = memo(() => {
   );
 });
 
-export default Office;
+export default Profile;
