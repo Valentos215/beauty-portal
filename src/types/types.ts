@@ -19,11 +19,16 @@ export interface IClientProcedure {
 export interface IArtistProcedure {
   categoryTitle: string;
   clientPhone: string;
+  date: string;
   startTime: string;
   duration: number;
 }
 export interface IArtistProfileData {
-  schedule: IDay[];
+  weekend: number[];
+  recordAhead: number;
+  workingHours: string[];
+  breakHours: string[];
+  dateNow: string;
   proceduresList: IArtistProcedure[];
 }
 export interface IClientProfileData {

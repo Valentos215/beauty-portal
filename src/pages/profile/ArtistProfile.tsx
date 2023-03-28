@@ -3,32 +3,43 @@ import Calendar from 'shared/components/Calendar';
 
 import s from 'pages/profile/ArtistProfile.module.scss';
 import { IArtistProfileData } from 'types/types';
-import { createArtistCalendar, createSchedule } from 'utils/utils';
+import { createArtistCalendar } from 'utils/utils';
+import { durationList } from 'constants/index';
+import moment from 'moment';
 
 const ArtistProfile = memo(() => {
   const profileData: IArtistProfileData = {
-    schedule: createSchedule(),
-    proceduresList: [],
+    weekend: [0, 6],
+    recordAhead: 7,
+    workingHours: ['8:0', '16:0'],
+    breakHours: ['13:0', '14:0'],
+    dateNow: `${moment().date()}.${moment().month()}`,
+    proceduresList: [
+      {
+        categoryTitle: 'Маникюр',
+        clientPhone: '+38(098)5869125',
+        date: '29.2',
+        startTime: '8:0',
+        duration: durationList[5].duration,
+      },
+      {
+        categoryTitle: 'Маникюр',
+        clientPhone: '+38(098)5869125',
+        date: '29.2',
+        startTime: '11:0',
+        duration: durationList[3].duration,
+      },
+      {
+        categoryTitle: 'Маникюр',
+        clientPhone: '+38(098)5869125',
+        date: '29.2',
+        startTime: '14:0',
+        duration: durationList[3].duration,
+      },
+    ],
   };
 
-  profileData.schedule[0].schedule = [
-    '8:0',
-    '9:0',
-    '9:30',
-    '10:0',
-    '10:30',
-    '11:0',
-    '11:30',
-    '12:0',
-    '12:30',
-    '14:0',
-    '14:30',
-    '15:0',
-    '15:30',
-  ];
-  profileData.schedule[3].schedule = [];
-
-  const calendarState = createArtistCalendar(profileData.schedule);
+  const calendarState = createArtistCalendar(profileData);
   return (
     <div className="container">
       <div className={s.wrapper}>
