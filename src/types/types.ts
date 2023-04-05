@@ -23,7 +23,7 @@ export interface IArtistProcedure {
   startTime: string;
   duration: number;
 }
-export interface IArtistProfileData {
+export interface IArtistCabinetData {
   weekend: number[];
   recordAhead: number;
   workingHours: string[];
@@ -31,7 +31,7 @@ export interface IArtistProfileData {
   dateNow: string;
   proceduresList: IArtistProcedure[];
 }
-export interface IClientProfileData {
+export interface IClientCabinetData {
   proceduresList: IClientProcedure[];
   dateNow: string;
 }

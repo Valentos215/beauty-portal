@@ -1,14 +1,14 @@
 import { memo } from 'react';
 import Calendar from 'shared/components/Calendar';
-import { IClientProfileData } from 'types/types';
+import { IClientCabinetData } from 'types/types';
 import moment from 'moment';
 import { durationList } from 'constants/index';
 
-import s from 'pages/profile/ClientProfile.module.scss';
+import s from 'pages/cabinet/ClientCabinet.module.scss';
 import { createClientCalendar } from 'utils/utils';
 
-const ClientProfile = memo(() => {
-  const profileData: IClientProfileData = {
+const ClientCabinet = memo(() => {
+  const cabinetData: IClientCabinetData = {
     proceduresList: [
       {
         categoryTitle: 'Маникюр',
@@ -22,7 +22,7 @@ const ClientProfile = memo(() => {
     dateNow: `${moment().date()}.${moment().month()}`,
   };
 
-  const calendarState = createClientCalendar(profileData);
+  const calendarState = createClientCalendar(cabinetData);
 
   return (
     <div className="container">
@@ -34,4 +34,4 @@ const ClientProfile = memo(() => {
   );
 });
 
-export default ClientProfile;
+export default ClientCabinet;

@@ -7,7 +7,7 @@ import { ERouterLink } from 'constants/index';
 
 import 'App.scss';
 
-const ProfileLazy = React.lazy(() => import('pages/profile/Profile'));
+const CabinetLazy = React.lazy(() => import('pages/cabinet/Cabinet'));
 const NewsLazy = React.lazy(() => import('pages/news/News'));
 
 function App() {
@@ -19,7 +19,7 @@ function App() {
           <React.Suspense fallback={<></>}>
             <Switch>
               <Route path={ERouterLink.News} component={NewsLazy} />
-              <Route path={ERouterLink.Profile} component={ProfileLazy} />
+              <Route path={ERouterLink.Cabinet} component={CabinetLazy} />
               <Route path={ERouterLink.Root} exact>
                 <Redirect to={ERouterLink.News} />
               </Route>

@@ -1,14 +1,14 @@
 import { memo } from 'react';
 import Calendar from 'shared/components/Calendar';
 
-import s from 'pages/profile/ArtistProfile.module.scss';
-import { IArtistProfileData } from 'types/types';
+import s from 'pages/cabinet/ArtistCabinet.module.scss';
+import { IArtistCabinetData } from 'types/types';
 import { createArtistCalendar } from 'utils/utils';
 import { durationList } from 'constants/index';
 import moment from 'moment';
 
-const ArtistProfile = memo(() => {
-  const profileData: IArtistProfileData = {
+const ArtistCabinet = memo(() => {
+  const cabinetData: IArtistCabinetData = {
     weekend: [0, 6],
     recordAhead: 7,
     workingHours: ['8:0', '16:0'],
@@ -39,7 +39,7 @@ const ArtistProfile = memo(() => {
     ],
   };
 
-  const calendarState = createArtistCalendar(profileData);
+  const calendarState = createArtistCalendar(cabinetData);
   return (
     <div className="container">
       <div className={s.wrapper}>
@@ -50,4 +50,4 @@ const ArtistProfile = memo(() => {
   );
 });
 
-export default ArtistProfile;
+export default ArtistCabinet;

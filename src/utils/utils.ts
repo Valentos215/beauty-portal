@@ -1,10 +1,10 @@
-import { IDayWithStatus, IClientProfileData, IArtistProfileData } from 'types/types';
+import { IDayWithStatus, IClientCabinetData, IArtistCabinetData } from 'types/types';
 import { EDateStatus, uaMonths } from 'constants/index';
 
 import moment, { Moment } from 'moment';
 
-const getArtistDayStatus = (date: Moment, profileData: IArtistProfileData): string => {
-  const { weekend, recordAhead, workingHours, breakHours, dateNow, proceduresList } = profileData;
+const getArtistDayStatus = (date: Moment, cabinetData: IArtistCabinetData): string => {
+  const { weekend, recordAhead, workingHours, breakHours, dateNow, proceduresList } = cabinetData;
   let dayStatus = '';
   if (
     date < moment(dateNow, 'D.M').add(1, 'month') ||
@@ -33,7 +33,7 @@ const getArtistDayStatus = (date: Moment, profileData: IArtistProfileData): stri
       // skip procedure time
       if (currentProcedure) {
         currentTime = moment(currentProcedure.startTime, 'h:m').add(
-          currentProcedure.duration * 30,
+          currentProcedure.duration,
           'minutes',
         );
         // add 30 minutes
@@ -51,10 +51,10 @@ const getArtistDayStatus = (date: Moment, profileData: IArtistProfileData): stri
   return dayStatus;
 };
 
-export const createArtistCalendar = (profileData: IArtistProfileData): IDayWithStatus[][] => {
+export const createArtistCalendar = (cabinetData: IArtistCabinetData): IDayWithStatus[][] => {
   const months: IDayWithStatus[][] = [];
   let chunk: IDayWithStatus[] = [];
-  const { recordAhead, dateNow } = profileData;
+  const { recordAhead, dateNow } = cabinetData;
   const currentDate = moment(dateNow, 'D.M').add(1, 'month').startOf('week').add(1, 'day');
   const endOfLastMonth = moment(dateNow, 'D.M')
     .add(1, 'month')
@@ -66,7 +66,7 @@ export const createArtistCalendar = (profileData: IArtistProfileData): IDayWithS
     if (!chunk.length || chunk[0].date.split('.')[1] === String(currentDate.month())) {
       chunk.push({
         date: `${currentDate.date()}.${currentDate.month()}`,
-        status: getArtistDayStatus(currentDate, profileData),
+        status: getArtistDayStatus(currentDate, cabinetData),
       });
       // moving on to the next month
     } else {
@@ -84,7 +84,7 @@ export const createArtistCalendar = (profileData: IArtistProfileData): IDayWithS
       }
       chunk.push({
         date: `${currentDate.date()}.${currentDate.month()}`,
-        status: getArtistDayStatus(currentDate, profileData),
+        status: getArtistDayStatus(currentDate, cabinetData),
       });
     }
     if (
@@ -99,8 +99,8 @@ export const createArtistCalendar = (profileData: IArtistProfileData): IDayWithS
   return months;
 };
 
-export const createClientCalendar = (profileData: IClientProfileData): IDayWithStatus[][] => {
-  const { proceduresList, dateNow } = profileData;
+export const createClientCalendar = (cabinetData: IClientCabinetData): IDayWithStatus[][] => {
+  const { proceduresList, dateNow } = cabinetData;
   const months: IDayWithStatus[][] = [];
   let chunk: IDayWithStatus[] = [];
   const currentDate = moment(dateNow, 'D.M').add(1, 'month').startOf('week').add(1, 'day');
