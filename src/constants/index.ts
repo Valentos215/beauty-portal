@@ -26,6 +26,17 @@ export enum EDateStatus {
   FulFilled = 'fulfilled',
 }
 
+export enum ETimeStatus {
+  BreakHours = 'break_hours',
+  Free = 'free',
+  CustomProcedure = 'custom_procedure',
+}
+
+export enum ETimeTitle {
+  BreakHours = 'Обідня перерва',
+  Free = 'Вільний час',
+}
+
 export const uaDays = ['ПН', 'ВТ', 'СР', 'ЧТ', 'ПТ', 'СБ', 'НД'];
 
 export const uaMonths = [
@@ -61,10 +72,10 @@ export const uaMonthsVidminok = [
 export const durationList = [
   { text: '30 хв', duration: 30 },
   { text: '1 година', duration: 60 },
-  { text: '1 година 30 хв', duration: 180 },
-  { text: '2 години', duration: 240 },
-  { text: '2 години 30 хв', duration: 300 },
-  { text: '3 години', duration: 360 },
-  { text: '3 години 30 хв', duration: 420 },
-  { text: '4 години', duration: 480 },
+  { text: '1 година 30 хв', duration: 90 },
+  { text: '2 години', duration: 120 },
+  { text: '2 години 30 хв', duration: 150 },
+  { text: '3 години', duration: 180 },
+  { text: '3 години 30 хв', duration: 210 },
+  { text: '4 години', duration: 240 },
 ];

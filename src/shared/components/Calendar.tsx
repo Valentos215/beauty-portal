@@ -8,9 +8,10 @@ import moment from 'moment';
 
 interface ICalendarProps {
   calendarState: IDayWithStatus[][];
+  setSelectedDate: (date: string) => void;
 }
 
-const Calendar = memo(({ calendarState }: ICalendarProps) => {
+const Calendar = memo(({ calendarState, setSelectedDate }: ICalendarProps) => {
   const dayClassName = (day: IDayWithStatus) => {
     if (day.date === `${moment().date()}.${moment().month()}`) {
       return `${s.day} ${s[day.status]} ${s.current}`;
@@ -31,7 +32,9 @@ const Calendar = memo(({ calendarState }: ICalendarProps) => {
             ))}
             {month.map((day) => (
               <div className={s.day_wrapper} key={day.date}>
-                <span className={dayClassName(day)}>{day.date.split('.')[0]}</span>
+                <span onClick={() => setSelectedDate(day.date)} className={dayClassName(day)}>
+                  {day.date.split('.')[0]}
+                </span>
               </div>
             ))}
           </div>

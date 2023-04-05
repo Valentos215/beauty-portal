@@ -7,6 +7,10 @@ export interface IDayWithStatus {
   date: string;
   status: string;
 }
+export interface ICategory {
+  categoryId: string;
+  categoryTitle: string;
+}
 
 export interface IClientProcedure {
   categoryTitle: string;
@@ -17,13 +21,17 @@ export interface IClientProcedure {
   duration: number;
 }
 export interface IArtistProcedure {
+  procedureId: string;
   categoryTitle: string;
+  clientName: string;
   clientPhone: string;
   date: string;
   startTime: string;
   duration: number;
+  description: string;
 }
 export interface IArtistCabinetData {
+  categories: ICategory[];
   weekend: number[];
   recordAhead: number;
   workingHours: string[];
@@ -34,4 +42,14 @@ export interface IArtistCabinetData {
 export interface IClientCabinetData {
   proceduresList: IClientProcedure[];
   dateNow: string;
+}
+
+export interface ITimeLine {
+  startTime: string;
+  endTime: string;
+  categoryTitle: string;
+  timeStatus?: string;
+  clientName?: string;
+  clientPhone?: string;
+  description?: string;
 }

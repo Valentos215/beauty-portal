@@ -1,4 +1,4 @@
-import { memo } from 'react';
+import { memo, useState } from 'react';
 import Calendar from 'shared/components/Calendar';
 import { IClientCabinetData } from 'types/types';
 import moment from 'moment';
@@ -8,7 +8,9 @@ import s from 'pages/cabinet/ClientCabinet.module.scss';
 import { createClientCalendar } from 'utils/utils';
 
 const ClientCabinet = memo(() => {
-  const cabinetData: IClientCabinetData = {
+  const [selectedDate, setSelectedDate] = useState(`${moment().date()}.${moment().month()}`);
+
+  const clientCabinetData: IClientCabinetData = {
     proceduresList: [
       {
         categoryTitle: 'Маникюр',
@@ -22,13 +24,13 @@ const ClientCabinet = memo(() => {
     dateNow: `${moment().date()}.${moment().month()}`,
   };
 
-  const calendarState = createClientCalendar(cabinetData);
+  const calendarState = createClientCalendar(clientCabinetData);
 
   return (
     <div className="container">
       <div className={s.wrapper}>
         <h1>Кабінет клієнта</h1>
-        <Calendar calendarState={calendarState} />
+        <Calendar calendarState={calendarState} setSelectedDate={setSelectedDate} />
       </div>
     </div>
   );

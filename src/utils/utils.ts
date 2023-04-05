@@ -1,7 +1,15 @@
-import { IDayWithStatus, IClientCabinetData, IArtistCabinetData } from 'types/types';
-import { EDateStatus, uaMonths } from 'constants/index';
+import { IDayWithStatus, IClientCabinetData, IArtistCabinetData, ITimeLine } from 'types/types';
+import { EDateStatus, uaMonths, ETimeTitle, ETimeStatus } from 'constants/index';
 
 import moment, { Moment } from 'moment';
+
+const getStrTime = (time: Moment): string => {
+  return `${time.hour()}:${time.minute()}`;
+};
+
+const getMomentTime = (time: string) => {
+  return moment(time, 'h:m');
+};
 
 const getArtistDayStatus = (date: Moment, cabinetData: IArtistCabinetData): string => {
   const { weekend, recordAhead, workingHours, breakHours, dateNow, proceduresList } = cabinetData;
@@ -51,10 +59,10 @@ const getArtistDayStatus = (date: Moment, cabinetData: IArtistCabinetData): stri
   return dayStatus;
 };
 
-export const createArtistCalendar = (cabinetData: IArtistCabinetData): IDayWithStatus[][] => {
+export const createArtistCalendar = (artistCabinetData: IArtistCabinetData): IDayWithStatus[][] => {
   const months: IDayWithStatus[][] = [];
   let chunk: IDayWithStatus[] = [];
-  const { recordAhead, dateNow } = cabinetData;
+  const { recordAhead, dateNow } = artistCabinetData;
   const currentDate = moment(dateNow, 'D.M').add(1, 'month').startOf('week').add(1, 'day');
   const endOfLastMonth = moment(dateNow, 'D.M')
     .add(1, 'month')
@@ -66,7 +74,7 @@ export const createArtistCalendar = (cabinetData: IArtistCabinetData): IDayWithS
     if (!chunk.length || chunk[0].date.split('.')[1] === String(currentDate.month())) {
       chunk.push({
         date: `${currentDate.date()}.${currentDate.month()}`,
-        status: getArtistDayStatus(currentDate, cabinetData),
+        status: getArtistDayStatus(currentDate, artistCabinetData),
       });
       // moving on to the next month
     } else {
@@ -84,7 +92,7 @@ export const createArtistCalendar = (cabinetData: IArtistCabinetData): IDayWithS
       }
       chunk.push({
         date: `${currentDate.date()}.${currentDate.month()}`,
-        status: getArtistDayStatus(currentDate, cabinetData),
+        status: getArtistDayStatus(currentDate, artistCabinetData),
       });
     }
     if (
@@ -99,8 +107,8 @@ export const createArtistCalendar = (cabinetData: IArtistCabinetData): IDayWithS
   return months;
 };
 
-export const createClientCalendar = (cabinetData: IClientCabinetData): IDayWithStatus[][] => {
-  const { proceduresList, dateNow } = cabinetData;
+export const createClientCalendar = (clientCabinetData: IClientCabinetData): IDayWithStatus[][] => {
+  const { proceduresList, dateNow } = clientCabinetData;
   const months: IDayWithStatus[][] = [];
   let chunk: IDayWithStatus[] = [];
   const currentDate = moment(dateNow, 'D.M').add(1, 'month').startOf('week').add(1, 'day');
@@ -156,6 +164,42 @@ export const createClientCalendar = (cabinetData: IClientCabinetData): IDayWithS
 
 export const getMonthName = (day: IDayWithStatus) => {
   return uaMonths[Number(day.date.split('.')[1])];
+};
+
+export const createDayTimeline = (
+  artistCabinetData: IArtistCabinetData,
+  date: string,
+): ITimeLine[] => {
+  const { workingHours, breakHours, proceduresList } = artistCabinetData;
+  let timeLine: ITimeLine;
+  let dayTimeline = [];
+  let currentTime = moment(workingHours[0], 'h:m');
+  let endOfDay = moment(workingHours[1], 'h:m');
+  while (currentTime < endOfDay) {
+    const currentTimeString = `${currentTime.hour()}:${currentTime.minute()}`;
+    if (currentTimeString === breakHours[0]) {
+      dayTimeline.push({
+        startTime: breakHours[0],
+        endTime: breakHours[1],
+        categoryTitle: ETimeTitle.BreakHours,
+        timeStatus: ETimeStatus.BreakHours,
+      });
+      currentTime = moment(breakHours[1], 'h:m');
+      continue;
+    }
+    const currentProcedure = proceduresList.find((proc) => proc.startTime === currentTimeString);
+    if (currentProcedure) {
+      const { startTime, duration } = currentProcedure;
+      const endOfProcedure = moment(startTime, 'h:m').add(duration, 'minutes');
+      dayTimeline.push({
+        startTime: currentProcedure.startTime,
+        endTime: `${endOfProcedure.hour()}:${endOfProcedure.minute()}`,
+        categoryTitle: ETimeTitle.BreakHours,
+        timeStatus: ETimeStatus.BreakHours,
+      });
+    }
+  }
+  return dayTimeline;
 };
 
 //server side function
