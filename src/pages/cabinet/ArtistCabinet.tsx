@@ -3,7 +3,7 @@ import Calendar from 'shared/components/Calendar';
 
 import s from 'pages/cabinet/ArtistCabinet.module.scss';
 import { IArtistCabinetData } from 'types/types';
-import { createArtistCalendar } from 'utils/utils';
+import { createArtistCalendar, createDayTimeline } from 'utils/utils';
 import { durationList } from 'constants/index';
 import moment from 'moment';
 
@@ -68,11 +68,15 @@ const ArtistCabinet = memo(() => {
         clientPhone: '+38(098)5869125',
         date: '6.3',
         startTime: '14:0',
-        duration: durationList[3].duration,
+        duration: durationList[2].duration,
         description: '',
       },
     ],
   };
+
+  const timeline = createDayTimeline(artistCabinetData, selectedDate);
+
+  console.log(timeline);
 
   const calendarState = createArtistCalendar(artistCabinetData);
   return (
