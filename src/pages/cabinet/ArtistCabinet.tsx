@@ -1,7 +1,7 @@
 import { memo, useState } from 'react';
-import Calendar from 'shared/components/Calendar';
+import Calendar from 'shared/components/calendar/Calendar';
 
-import s from 'pages/cabinet/ArtistCabinet.module.scss';
+import s from './ArtistCabinet.module.scss';
 import { IArtistCabinetData } from 'types/types';
 import { createArtistCalendar, createDayTimeline } from 'utils/utils';
 import { durationList } from 'constants/index';

@@ -3,7 +3,7 @@ import { memo } from 'react';
 import ArtistCabinet from './ArtistCabinet';
 import ClientCabinet from './ClientCabinet';
 
-import s from 'pages/cabinet/Cabinet.module.scss';
+import s from './Cabinet.module.scss';
 
 const Cabinet = memo(() => {
   return (

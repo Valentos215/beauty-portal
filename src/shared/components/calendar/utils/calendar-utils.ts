@@ -1,21 +1,8 @@
-import { IDayWithStatus, IClientCabinetData, IArtistCabinetData, ITimeLine } from 'types/types';
-import { EDateStatus, uaMonths, ETimeTitle, ETimeStatus } from 'constants/index';
+import { IDayWithStatus, IClientCabinetData, IArtistCabinetData } from 'types/types';
+import { EDateStatus, uaMonths } from 'constants/index';
 
-import moment, { Moment } from 'moment';
-
-export const getStrTime = (time: Moment): string => {
-  return `${time.hour()}:${time.minute()}`;
-};
-export const getMomentTime = (time: string): Moment => {
-  return moment(time, 'h:m');
-};
-export const getStrDate = (date: Moment): string => {
-  return `${date.date()}.${date.month()}`;
-};
-
-export const getMomentDate = (date: string): Moment => {
-  return moment(date, 'D.M');
-};
+import { Moment } from 'moment';
+import { getMomentDate, getMomentTime, getStrDate, getStrTime } from 'utils/utils';
 
 const getArtistDayStatus = (date: Moment, cabinetData: IArtistCabinetData): string => {
   const { weekend, recordAhead, workingHours, breakHours, dateNow, proceduresList } = cabinetData;
@@ -164,76 +151,6 @@ export const createClientCalendar = (clientCabinetData: IClientCabinetData): IDa
 
 export const getMonthName = (day: IDayWithStatus) => {
   return uaMonths[Number(day.date.split('.')[1])];
-};
-
-export const createDayTimeline = (
-  artistCabinetData: IArtistCabinetData,
-  date: string,
-): ITimeLine[] => {
-  const { workingHours, breakHours, proceduresList } = artistCabinetData;
-  let dayTimeline = [];
-  let currentTime = getMomentTime(workingHours[0]);
-  let endOfDay = getMomentTime(workingHours[1]);
-  let freeTimeStart: Moment | null = null;
-
-  const writeFreeTime = (freeTimeEnd: Moment) => {
-    if (freeTimeStart) {
-      dayTimeline.push({
-        startTime: getStrTime(freeTimeStart),
-        endTime: getStrTime(freeTimeEnd),
-        categoryTitle: ETimeTitle.Free,
-        timeStatus: ETimeStatus.Free,
-      });
-      freeTimeStart = null;
-    }
-  };
-
-  while (currentTime < endOfDay) {
-    // skip breaks and add them to the timeline
-    if (getStrTime(currentTime) === breakHours[0]) {
-      writeFreeTime(currentTime);
-      dayTimeline.push({
-        startTime: breakHours[0],
-        endTime: breakHours[1],
-        categoryTitle: ETimeTitle.BreakHours,
-        timeStatus: ETimeStatus.BreakHours,
-      });
-      currentTime = getMomentTime(breakHours[1]);
-    }
-
-    const currentTimeString = getStrTime(currentTime);
-    const currentProcedure = proceduresList.find(
-      (proc) => proc.date === date && proc.startTime === currentTimeString,
-    );
-    if (currentProcedure) {
-      writeFreeTime(currentTime);
-      const { startTime, duration } = currentProcedure;
-      const endOfProcedure = getMomentTime(startTime).add(duration, 'minutes');
-      const { categoryTitle, clientName, clientPhone, description } = currentProcedure;
-      dayTimeline.push({
-        startTime: startTime,
-        endTime: getStrTime(endOfProcedure),
-        categoryTitle: categoryTitle,
-        timeStatus: categoryTitle ? '' : ETimeStatus.CustomProcedure,
-        clientName,
-        clientPhone,
-        description,
-      });
-      currentTime = endOfProcedure;
-      continue;
-    }
-
-    if (!freeTimeStart) {
-      freeTimeStart = currentTime.clone();
-    }
-    if (getStrTime(currentTime.clone().add(30, 'minutes')) === workingHours[1]) {
-      writeFreeTime(getMomentTime(workingHours[1]));
-    }
-
-    // increment of cycle
-    currentTime.add(30, 'minutes');
-  }
-  return dayTimeline;
 };
 
 //server side function

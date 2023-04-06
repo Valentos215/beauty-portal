@@ -2,8 +2,8 @@ import { memo } from 'react';
 import { getMonthName } from 'utils/utils';
 import { IDayWithStatus } from 'types/types';
 
-import s from 'shared/components/Calendar.module.scss';
-import { uaDays } from 'constants/index';
+import s from './Calendar.module.scss';
+import { uaDays, EDateStatus } from 'constants/index';
 import moment from 'moment';
 
 interface ICalendarProps {
@@ -17,6 +17,9 @@ const Calendar = memo(({ calendarState, setSelectedDate }: ICalendarProps) => {
       return `${s.day} ${s[day.status]} ${s.current}`;
     }
     return `${s.day} ${s[day.status]}`;
+  };
+  const isDisabled = (dayStatus: string) => {
+    return dayStatus === EDateStatus.NonWorking || dayStatus === EDateStatus.EmptySpace;
   };
 
   return (
@@ -32,9 +35,13 @@ const Calendar = memo(({ calendarState, setSelectedDate }: ICalendarProps) => {
             ))}
             {month.map((day) => (
               <div className={s.day_wrapper} key={day.date}>
-                <span onClick={() => setSelectedDate(day.date)} className={dayClassName(day)}>
+                <button
+                  disabled={isDisabled(day.status)}
+                  onClick={() => setSelectedDate(day.date)}
+                  className={dayClassName(day)}
+                >
                   {day.date.split('.')[0]}
-                </span>
+                </button>
               </div>
             ))}
           </div>

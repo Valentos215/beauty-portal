@@ -1,10 +1,10 @@
 import { memo, useState } from 'react';
-import Calendar from 'shared/components/Calendar';
+import Calendar from 'shared/components/calendar/Calendar';
 import { IClientCabinetData } from 'types/types';
 import moment from 'moment';
 import { durationList } from 'constants/index';
 
-import s from 'pages/cabinet/ClientCabinet.module.scss';
+import s from './ClientCabinet.module.scss';
 import { createClientCalendar } from 'utils/utils';
 
 const ClientCabinet = memo(() => {
