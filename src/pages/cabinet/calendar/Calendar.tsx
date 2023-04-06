@@ -1,7 +1,7 @@
 import { memo } from 'react';
-import { getMonthName } from 'utils/utils';
-import { IDayWithStatus } from 'types/types';
 
+import { IDayWithStatus } from 'types/types';
+import { getMonthName } from './utils/calendar-utils';
 import s from './Calendar.module.scss';
 import { uaDays, EDateStatus } from 'constants/index';
 import moment from 'moment';

@@ -1,11 +1,11 @@
 import { memo, useState } from 'react';
-import Calendar from 'shared/components/calendar/Calendar';
+import Calendar from 'pages/cabinet/calendar/Calendar';
 import { IClientCabinetData } from 'types/types';
 import moment from 'moment';
 import { durationList } from 'constants/index';
+import { createClientCalendar } from 'pages/cabinet/calendar/utils/calendar-utils';
 
 import s from './ClientCabinet.module.scss';
-import { createClientCalendar } from 'utils/utils';
 
 const ClientCabinet = memo(() => {
   const [selectedDate, setSelectedDate] = useState(`${moment().date()}.${moment().month()}`);

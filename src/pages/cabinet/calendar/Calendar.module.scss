@@ -45,9 +45,6 @@
   &:disabled {
     color: #000;
   }
-  &:active {
-    transform: scale(0.9);
-  }
   &.current {
     cursor: pointer;
     border: 1px solid #000;
@@ -55,21 +52,27 @@
   }
   &.nonworking {
     background: $color-7;
-    &:active {
-      transform: none;
-    }
   }
   &.free {
     background: $color-8;
     cursor: pointer;
+    &:active {
+      transform: scale(0.9);
+    }
   }
   &.partfilled {
     background: $color-9;
     cursor: pointer;
+    &:active {
+      transform: scale(0.9);
+    }
   }
   &.fulfilled {
     background: $color-10;
     cursor: pointer;
+    &:active {
+      transform: scale(0.9);
+    }
   }
   &.empty_space {
     background: #fff;

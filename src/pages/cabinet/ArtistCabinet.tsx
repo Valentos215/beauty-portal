@@ -1,11 +1,13 @@
 import { memo, useState } from 'react';
-import Calendar from 'shared/components/calendar/Calendar';
+import Calendar from 'pages/cabinet/calendar/Calendar';
 
-import s from './ArtistCabinet.module.scss';
 import { IArtistCabinetData } from 'types/types';
-import { createArtistCalendar, createDayTimeline } from 'utils/utils';
+import { createArtistCalendar } from 'pages/cabinet/calendar/utils/calendar-utils';
+import { createDayTimeline } from './timeline/utils/timeline-utils';
 import { durationList } from 'constants/index';
 import moment from 'moment';
+
+import s from './ArtistCabinet.module.scss';
 
 const ArtistCabinet = memo(() => {
   const [selectedDate, setSelectedDate] = useState(`${moment().date()}.${moment().month()}`);
@@ -79,6 +81,7 @@ const ArtistCabinet = memo(() => {
   console.log(timeline);
 
   const calendarState = createArtistCalendar(artistCabinetData);
+
   return (
     <div className="container">
       <div className={s.wrapper}>
