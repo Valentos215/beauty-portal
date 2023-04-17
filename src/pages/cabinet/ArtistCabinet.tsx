@@ -4,10 +4,12 @@ import Calendar from 'pages/cabinet/calendar/Calendar';
 import { IArtistCabinetData } from 'types/types';
 import { createArtistCalendar } from 'pages/cabinet/calendar/utils/calendar-utils';
 import { createDayTimeline } from './timeline/utils/timeline-utils';
+import { getDateTextFormat } from 'utils/utils';
 import { durationList } from 'constants/index';
 import moment from 'moment';
 
 import s from './ArtistCabinet.module.scss';
+import TimeLine from './timeline/TimeLine';
 
 const ArtistCabinet = memo(() => {
   const [selectedDate, setSelectedDate] = useState(`${moment().date()}.${moment().month()}`);
@@ -38,7 +40,7 @@ const ArtistCabinet = memo(() => {
         categoryTitle: 'Маникюр',
         clientName: 'Анна Волохацька',
         clientPhone: '+38(098)5869125',
-        date: '6.3',
+        date: '17.3',
         startTime: '8:0',
         duration: durationList[3].duration,
         description: 'Френч без малюнку',
@@ -46,47 +48,50 @@ const ArtistCabinet = memo(() => {
       {
         procedureId: 'hs7ddcdc78s589s',
         categoryTitle: '',
-        clientName: '',
+        clientName: 'Яна',
         clientPhone: '',
-        date: '6.3',
+        date: '17.3',
         startTime: '10:0',
         duration: durationList[0].duration,
-        description: '',
+        description: 'Поправити кути',
       },
       {
         procedureId: 'hs9ddcdc78sdc9s',
         categoryTitle: 'Маникюр',
         clientName: 'Анна Волохацька',
         clientPhone: '+38(098)5869125',
-        date: '6.3',
+        date: '17.3',
         startTime: '11:0',
         duration: durationList[3].duration,
-        description: '',
+        description: 'Френч',
       },
       {
         procedureId: 'hs8ddcdc78sdc9s',
         categoryTitle: 'Маникюр',
         clientName: 'Анна Волохацька',
         clientPhone: '+38(098)5869125',
-        date: '6.3',
+        date: '17.3',
         startTime: '14:0',
         duration: durationList[2].duration,
-        description: '',
+        description: 'Щось з цікавим принтом і блістками',
       },
     ],
   };
 
-  const timeline = createDayTimeline(artistCabinetData, selectedDate);
-
-  console.log(timeline);
-
+  const dayTimeline = createDayTimeline(artistCabinetData, selectedDate);
   const calendarState = createArtistCalendar(artistCabinetData);
 
   return (
     <div className="container">
       <div className={s.wrapper}>
         <h1>Кабінет майстра</h1>
-        <Calendar calendarState={calendarState} setSelectedDate={setSelectedDate} />
+        <div className={s.row}>
+          <Calendar calendarState={calendarState} setSelectedDate={setSelectedDate} />
+          <div className={s.right_column}>
+            <h2>Розклад на {getDateTextFormat(selectedDate)}</h2>
+            <TimeLine dayTimeline={dayTimeline} />
+          </div>
+        </div>
       </div>
     </div>
   );

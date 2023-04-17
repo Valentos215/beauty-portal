@@ -29,12 +29,14 @@ export enum EDateStatus {
 export enum ETimeStatus {
   BreakHours = 'break_hours',
   Free = 'free',
+  Procedure = 'procedure',
   CustomProcedure = 'custom_procedure',
 }
 
 export enum ETimeTitle {
   BreakHours = 'Обідня перерва',
   Free = 'Вільний час',
+  Reserved = 'Зарезервований час',
 }
 
 export const uaDays = ['ПН', 'ВТ', 'СР', 'ЧТ', 'ПТ', 'СБ', 'НД'];

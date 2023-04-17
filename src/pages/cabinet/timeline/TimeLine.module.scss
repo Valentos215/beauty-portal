@@ -1,0 +1,69 @@
+@import 'styles/global';
+
+.wrapper {
+  display: grid;
+}
+.slot {
+  display: flex;
+  flex-direction: row;
+  border-radius: toRem(10);
+  margin-bottom: toRem(10);
+  padding: toRem(10);
+  border: 1px solid $color-5;
+  box-shadow: 2px 2px 5px $color-7;
+  transition: all 0.3s;
+  &:hover {
+    @media (min-width: 769px) {
+      transform: scale(1.01);
+    }
+  }
+}
+.slot_time {
+  font-size: toRem(16);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-right: toRem(10);
+  width: 100px;
+  @media (max-width: 768px) {
+    width: 55px;
+  }
+  & span {
+    display: block;
+  }
+}
+.slot_card {
+  flex: auto;
+  border-left: 1px solid $color-1;
+  padding-left: toRem(15);
+  &__title {
+    font-size: toRem(18);
+    font-weight: 600;
+  }
+  &__client {
+    margin-top: toRem(10);
+    font-size: toRem(16);
+    display: flex;
+    text-decoration: underline;
+    & span {
+      display: inline-block;
+      margin-right: toRem(20);
+    }
+  }
+  &__description {
+    font-size: toRem(16);
+    margin-top: toRem(10);
+  }
+}
+.break_hours {
+  background: $color-8;
+}
+.free {
+  background: $color-8;
+}
+.procedure {
+  background: $color-9;
+}
+.custom_procedure {
+  background: $color-10;
+}

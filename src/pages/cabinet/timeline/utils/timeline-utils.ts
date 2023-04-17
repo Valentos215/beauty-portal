@@ -1,7 +1,7 @@
 import { IArtistCabinetData, ITimeLine } from 'types/types';
 import { ETimeTitle, ETimeStatus } from 'constants/index';
 import { getMomentTime, getStrTime } from 'utils/utils';
-import { Moment } from 'moment';
+import moment, { Moment } from 'moment';
 
 export const createDayTimeline = (
   artistCabinetData: IArtistCabinetData,
@@ -13,12 +13,13 @@ export const createDayTimeline = (
   let endOfDay = getMomentTime(workingHours[1]);
   let freeTimeStart: Moment | null = null;
 
+  // callback fn adds free time slot to timeline
   const writeFreeTime = (freeTimeEnd: Moment) => {
     if (freeTimeStart) {
       dayTimeline.push({
         startTime: getStrTime(freeTimeStart),
         endTime: getStrTime(freeTimeEnd),
-        categoryTitle: ETimeTitle.Free,
+        title: ETimeTitle.Free,
         timeStatus: ETimeStatus.Free,
       });
       freeTimeStart = null;
@@ -32,7 +33,7 @@ export const createDayTimeline = (
       dayTimeline.push({
         startTime: breakHours[0],
         endTime: breakHours[1],
-        categoryTitle: ETimeTitle.BreakHours,
+        title: ETimeTitle.BreakHours,
         timeStatus: ETimeStatus.BreakHours,
       });
       currentTime = getMomentTime(breakHours[1]);
@@ -42,6 +43,7 @@ export const createDayTimeline = (
     const currentProcedure = proceduresList.find(
       (proc) => proc.date === date && proc.startTime === currentTimeString,
     );
+    // add procedure to the timeline
     if (currentProcedure) {
       writeFreeTime(currentTime);
       const { startTime, duration } = currentProcedure;
@@ -50,8 +52,8 @@ export const createDayTimeline = (
       dayTimeline.push({
         startTime: startTime,
         endTime: getStrTime(endOfProcedure),
-        categoryTitle: categoryTitle,
-        timeStatus: categoryTitle ? '' : ETimeStatus.CustomProcedure,
+        title: categoryTitle || ETimeTitle.Reserved,
+        timeStatus: categoryTitle ? ETimeStatus.Procedure : ETimeStatus.CustomProcedure,
         clientName,
         clientPhone,
         description,
@@ -59,10 +61,11 @@ export const createDayTimeline = (
       currentTime = endOfProcedure;
       continue;
     }
-
+    // set start of free time slot
     if (!freeTimeStart) {
       freeTimeStart = currentTime.clone();
     }
+    // add free time slot to the timeline at the end of the day
     if (getStrTime(currentTime.clone().add(30, 'minutes')) === workingHours[1]) {
       writeFreeTime(getMomentTime(workingHours[1]));
     }

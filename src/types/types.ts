@@ -47,8 +47,8 @@ export interface IClientCabinetData {
 export interface ITimeLine {
   startTime: string;
   endTime: string;
-  categoryTitle: string;
-  timeStatus?: string;
+  title: string;
+  timeStatus: string;
   clientName?: string;
   clientPhone?: string;
   description?: string;

@@ -5,9 +5,9 @@ $color-4: rgba(2, 2, 2, 0.3);
 $color-5: #6f6c74;
 $color-6: #eaeaea;
 $color-7: #a8a8a8;
-$color-8: #c3f4b9;
-$color-9: #b5cbf6;
-$color-10: #ffa0a0;
+$color-8: #c3f4b9e7;
+$color-9: rgba(196, 210, 253, 0.904);
+$color-10: #ffa0a0df;
 
 @function toRem($value) {
   $remValue: ($value / 14) + rem;

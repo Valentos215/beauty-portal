@@ -1,18 +1,28 @@
 @import 'styles/global';
 
 .wrapper {
-  width: toRem(240);
+  flex: 0 0 toRem(240);
   display: flex;
   flex-direction: column;
+  @media (max-width: 768px) {
+    max-width: toRem(360);
+    margin-bottom: toRem(20);
+  }
 }
 .month {
-  width: 100%;
-  margin-bottom: toRem(30);
+  margin-bottom: toRem(20);
+  @media (max-width: 768px) {
+    margin-bottom: toRem(10);
+    margin-right: -20px;
+  }
   & h4 {
     font-size: toRem(20);
     font-weight: 600;
     text-align: center;
     margin-bottom: toRem(20);
+    @media (max-width: 768px) {
+      margin-bottom: toRem(15);
+    }
   }
 }
 
@@ -37,6 +47,11 @@
   border: 1px solid $color-5;
   text-align: center;
   transition: all 0.2s;
+  &:hover {
+    @media (min-width: 769px) {
+      transform: scale(1.05);
+    }
+  }
   &.week_day {
     background: $color-6;
     border: none;
@@ -57,21 +72,21 @@
     background: $color-8;
     cursor: pointer;
     &:active {
-      transform: scale(0.9);
+      transform: scale(0.95);
     }
   }
   &.partfilled {
     background: $color-9;
     cursor: pointer;
     &:active {
-      transform: scale(0.9);
+      transform: scale(0.95);
     }
   }
   &.fulfilled {
     background: $color-10;
     cursor: pointer;
     &:active {
-      transform: scale(0.9);
+      transform: scale(0.95);
     }
   }
   &.empty_space {
